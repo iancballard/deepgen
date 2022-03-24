@@ -7,10 +7,10 @@ base = dict(
 
     init_wait_time = 1,
     nruns = 12, #12 25 stim blocks = 300 total stimuli
-    block_reward_probabilities = [.9,.9,.775,.775,.65,.65],
+    rew_prob = .85,
     experimenter_mode_timing = 1.75, #ISI/ITIs for running in testing mode
     first_decision_dur = 2,
-    second_decision_dur = .75,
+    second_decision_dur = 1,
     feedback_dur = 1,
     late_wait_duration = 1, #record keypressed after second_decision_dur for this long (make sure shorter than shortest ISI)
     too_slow_color = '#992020',
@@ -19,7 +19,7 @@ base = dict(
     window_color = '#0a0a0a',#'#545454',
     rew_color = '#2aaf39',
     im_size = 7,
-    test_refresh = True,
+    test_refresh = False,
     monitor_name = 'mbpro',
     monitor_units = 'deg',
     full_screen = True,
@@ -109,20 +109,26 @@ behavior.update(
     run_mode = 'behavior',
     instruct_text = ["""
                     You are about to begin run RUN out of TOTAL
+                    This is a Computer Aglorithm ALG block.
                     Press the first key to when you are ready to begin.
+                    """],
+    alg_change_notification = ["""
+                    The algorithm selecting which of the images is most
+                    similar has changed! This is the first block with the 
+                    new algorithm. The new algorithm will decide whether you
+                    get rewards for the rest of the experiment.
+                    Press the SECOND key to continue.
                     """]
 )
 
-fmri = deepcopy(base)
+fmri = deepcopy(behavior)
 fmri.update(
     
-    run_mode = 'fmri',
+    run_mode = 'behavior',
     init_wait_time = 12,
     end_run_wait = 10,
-    instruct_text = ["""
-                    You are about to begin run RUN out of TOTAL
-                    Press the first key to when you are ready to begin.
-                    """]    
+
+    
 )
 
 experimenter = deepcopy(behavior)

@@ -128,18 +128,11 @@ class Params(object):
                 good_randomization = True
                 
         #set reward probabilities
-        l1 = list(self.block_reward_probabilities)
-        l2 = list(self.block_reward_probabilities)
-        rs.shuffle(l1)
-        rs.shuffle(l2)
-        rew_probs = [None]*(len(l1)+len(l2))
-        rew_probs[::2] = l1
-        rew_probs[1::2] = l2 
-        df['rew_probs'] = np.repeat(rew_probs, num_trial_per_block)
+        df['rew_probs'] = self.rew_prob
 
         #set block order of whether IT or V2 are rewarded
-        possible_block_orders = [['IT','V2']*int(self.nruns/2),
-                               ['V2','IT']*int(self.nruns/2)]
+        possible_block_orders = [['IT']*int(self.nruns/2) + ['V2']*int(self.nruns/2),
+                               ['V2']*int(self.nruns/2) + ['IT']*int(self.nruns/2)]
         block_order = possible_block_orders[rs.choice([0,1])]
         df['block_order'] = np.repeat(block_order, num_trial_per_block)
 

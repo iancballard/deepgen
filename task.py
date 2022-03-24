@@ -187,12 +187,30 @@ def main(arglist):
         for n,txt in enumerate(p.instruct_text):
             txt = txt.replace('RUN',str(p.run))
             txt = txt.replace('TOTAL',str(p.nruns))
+            
+            if int(p.run) <= int(p.nruns)/2:
+                alg = 'ONE'
+            else:
+                alg = 'TWO'
+            txt = txt.replace('ALG',alg)              
+                
             message = visual.TextStim(win,
                 color = p.text_color,
                 text=dedent(txt))
             message.draw()
             win.flip()
             wait = event.waitKeys(keyList  = ['1'])
+            
+            
+        if int(p.run) == int(p.nruns)/2 + 1: #first run of switch
+            for n,txt in enumerate(p.alg_change_notification):
+                message = visual.TextStim(win,
+                    color = p.text_color,
+                    text=dedent(txt))
+                message.draw()
+                win.flip()
+                wait = event.waitKeys(keyList  = ['2'])
+
 
     ########################
     #### Run Experiment ####
@@ -227,6 +245,7 @@ def main(arglist):
     p.choice_times = []
     p.feedback_times = []
     p.rewards = []
+    p.correct = []
     p.too_late_keypresses = [] #log responses that are too slow
     p.bank = 0
         
@@ -343,7 +362,8 @@ def main(arglist):
                     correct = True
                 elif resp == '2' and p.V2_most_similar_lr[n] == 'right':
                     correct = True
-                    
+            
+            p.correct.append(correct)    
             #draw reward according to correct/incorrect
             if correct: 
                 rew = scipy.stats.bernoulli.rvs(p.rew_probs[n])
