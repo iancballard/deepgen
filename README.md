@@ -2,6 +2,7 @@
 Task for distinguishing low and high levels of visual concept learning
 
 Installation instructions
+
 Instructions for Mac OSX
 Open up a terminal window
 Install xcode tools
