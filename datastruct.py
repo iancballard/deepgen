@@ -74,17 +74,24 @@ class Params(object):
 
             #shuffle Image1 and Image2 location
             left_right = []
+            left_right_root = []
             block_id = []
             for i in range(self.nruns):
                 lr = ['left']*int(num_trial_per_block/2) + ['right']*int(num_trial_per_block/2)
+                lr_root = ['left']*int(num_trial_per_block/2) + ['right']*int(num_trial_per_block/2)
+                
                 if len(lr) < num_trial_per_block: #append one if ntrials ends up being odd
                     lr.append(rs.choice(['left','right']))
+                    lr_root.append(rs.choice(['left','right']))
                 rs.shuffle(lr)
+                rs.shuffle(lr_root)
     
                 left_right.extend(lr.copy())
+                left_right_root.extend(lr_root.copy())
                 block_id.extend(np.array([int(i) + 1]*int(num_trial_per_block)))
 
             df['left_right'] = left_right
+            df['left_right_root'] = left_right_root
             df['run'] = block_id
         
             #figure out lr mappings and V1/V2 similarities
@@ -144,18 +151,23 @@ class Params(object):
         run_df = df.set_index('run').loc[int(self.run)].reset_index()
         self.run_info = run_df
         self.block_order_IT_V2 = run_df['block_order'].values
+        self.left_right_root = run_df['left_right_root'].values
         self.rew_probs = run_df['rew_probs'].values 
         self.IT_most_similar_lr = run_df['IT_most_similar_lr'].values 
         self.V2_most_similar_lr = run_df['V2_most_similar_lr'].values 
         
     def load_practice_info(self, filename):
         df = pd.read_csv(filename)
+        ntrials = df.shape[0]
+        lr = ['left','right'] * int(ntrials/2)
+        np.random.shuffle(lr)
         self.ntrials = df.shape[0]
         self.exp_info = df
         self.run_info = df
         self.block_order_IT_V2 = df['block_order'].values
         self.rew_probs = df['rew_probs'].values
         self.IT_most_similar_lr = df['IT_most_similar_lr'].values 
+        self.left_right_root = lr
         self.V2_most_similar_lr = df['V2_most_similar_lr'].values
         print(df['IT_most_similar_lr'].values)
         
