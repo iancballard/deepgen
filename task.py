@@ -67,18 +67,6 @@ def main(arglist):
     fixation = visual.TextStim(win,
         color = p.text_color,
         text='+')
-
-    #Semantic labels
-    semantic1 = visual.TextStim(win,
-        color = p.text_color,
-        pos=(-p.im_size*2/3, -p.im_size*2/3),
-        text='Living')
-
-    semantic2 = visual.TextStim(win,
-        color = p.text_color,
-        pos=(p.im_size *2/3, -p.im_size*2/3),
-        text='Not Living')
-
     
     #chosen text boxe
     rightbox = visual.Rect(win,
@@ -112,16 +100,23 @@ def main(arglist):
         text='Loading stimuli. Please wait...')
     load.draw()
     win.flip()
+    
 
     root_cue = []
     left_cue = []
     right_cue = []
     for n in range(p.ntrials):
+        
+        if p.left_right_root[n] == 'left':
+            root_loc = (-p.im_size*2/3, 0)
+        else:
+            root_loc = (p.im_size*2/3, 0)
+              
         root_cue.append(visual.ImageStim(
                         win=win,
                         name='root' + str(n),
                         image=op.join(p.im_path, p.run_info['root'][n]),
-                        pos=(0, 0),
+                        pos=root_loc,
                         size=(p.im_size,p.im_size)))
 
         left_cue.append(visual.ImageStim(
@@ -151,7 +146,7 @@ def main(arglist):
             keys = event.waitKeys(keyList  = ['1'])
         
             #show single image example
-            if n==2:
+            if n==3:
                 example = visual.ImageStim(
                                 win=win,
                                 name='root' + str(n),
@@ -159,12 +154,10 @@ def main(arglist):
                                 pos=(0, 0),
                                 size=(p.im_size,p.im_size))
                 example.draw()
-                semantic1.draw()
-                semantic2.draw()
                 win.flip()
                 keys = event.waitKeys(keyList  = ['1','2'])
             #show decision example
-            if n==4:
+            if n==5:
                 left_example = visual.ImageStim(
                                 win=win,
                                 name='left_cue' + str(n),
@@ -248,38 +241,22 @@ def main(arglist):
     p.correct = []
     p.too_late_keypresses = [] #log responses that are too slow
     p.bank = 0
-        
+    
     for n in range(p.ntrials):
+        print(p.block_order_IT_V2[n])
         
         #root cue period
         root_cue[n].draw()
-        semantic1.draw()
-        semantic2.draw()
+        fixation.draw()
         win.flip()
 
         #wait for keys
         rt_clock = clock.getTime()
         p.root_times.append(rt_clock)
-        keys = psychopy.event.waitKeys(maxWait = p.first_decision_dur,
-            keyList = ['1','2'],
-            timeStamped = clock)
-        if keys is None:
-            resp = np.NaN
-            p.semantic_resp.append(resp)
-            p.semantic_rt.append(np.NaN)
-        else:
-            resp = keys[0][0]
-            p.semantic_resp.append(resp)
-            p.semantic_rt.append(keys[0][1] - rt_clock)
 
         # wait out rest of choice period
         while clock.getTime() < rt_clock + p.first_decision_dur:
             None
-
-        #check for missed responses
-        nframes = p.feedback_dur * win.framerate
-        if keys is None:
-            draw_error(win, nframes, p.too_slow_color)
         
         #ISI period
         check_abort(event.getKeys())
@@ -340,6 +317,7 @@ def main(arglist):
             None
         
         #check for missed responses
+        nframes = p.feedback_dur * win.framerate
         if keys is None:
             p.feedback_times.append(clock.getTime())
             draw_error(win, nframes, p.too_slow_color)
