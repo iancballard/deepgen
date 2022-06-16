@@ -7,12 +7,12 @@ base = dict(
 
     init_wait_time = 1,
     nruns = 12, #12 25 stim blocks = 300 total stimuli
-    rew_prob = .85,
+    rew_prob = 1.0,
     experimenter_mode_timing = 1.75, #ISI/ITIs for running in testing mode
     first_decision_dur = 2,
     second_decision_dur = 1,
     feedback_dur = 1,
-    late_wait_duration = 1, #record keypressed after second_decision_dur for this long (make sure shorter than shortest ISI)
+    late_wait_duration = .95, #record keypressed after second_decision_dur for this long (make sure shorter than shortest ISI)
     too_slow_color = '#992020',
     text_color = '#999999',
     chosen_rect_color = '#999999',
@@ -41,18 +41,23 @@ practice.update(
                     Press the "1" key to proceed through the instructions.
                     """,
                     """
+                    Throughout the experiment there will be a cross at the center
+                    of the screen. There will be images that appear on either side
+                    of the cross. Look at the images while keeping your eyes focused
+                    on the central cross. Try not to let your eyes move around when
+                    you are looking at the images.
+                    """,
+                    """
                     Each trial of the experiment is composed of two parts.
-                    In the first part of each trial, you will see an image and respond
-                    based on whether the image is primarily of a living
-                    or a nonliving thing. If there are both living and nonliving things
-                    in the image, just use your best judgment. 
-                    Make your responses with the "1" and "2" keys.
+                    In the first part of each trial, you will see an image.
+                    This image may appear on the left or right side of the screen.
+                    Look at the image while keeping your eyes focused on the
+                    cross at the center of the screen. 
                     """,
                     """
                     You should pay close attention
                     to the image because it will be important for the second part
                     of the trial. 
-                    You will have 2 seconds to respond.
                     Press "1" to see an example.
                     """,
                     """
@@ -63,7 +68,7 @@ practice.update(
                     """,
                     """
                     Select the left with the "1" key and the right with the "2" key.
-                    You will have .75 seconds to respond.
+                    You will have 1 second to respond.
                     The fixation cross will flicker red if you respond too slowly.
                     If you respond too slowly, you will lose points.
                     In the following example, you should select the image
@@ -71,29 +76,45 @@ practice.update(
                     """,
                     """
                     A computer algorithm determines which of the two
-                    images is the most similar. If you select the image that that the computer
-                    thinks is more similar to the first image, you will have a higher probability
-                    of winning a point.
-                    It is possible to select the image that the computer thinks is most similar and
-                    still not win a point, but overall the more that you select images that
-                    agree with the computer, the more points you will earn.
+                    images is the most similar. If you select the image that that the algorithm
+                    thinks is MORE similar to the first image, the fixation cross will turn green,
+                    which tells you that you won a point.
                     """,
                     """
-                    If you win a point, the fixation cross will turn green.
-                    If you do not win a point, the fixation cross will turn red.
+                    f you select the image that that the algorithm
+                    thinks is LESS similar to the first image, the fixation cross will turn red,
+                    which tells you that you lost a point.
+                    """,
+                    """
+                    If you respond too slowly (after the images have disappeared),
+                    the fixation cross will flicker red, and you will lose a point.
                     """,
                     """
                     You will perform 12 blocks of the task during the main experiment.
                     The computer algorithm that picks which image is more similar
-                    will stay the same within a block, but it will change between blocks.
-                    Therefore, it is important to try to learn what the computer is doing on
-                    each block. 
+                    will stay the same for the first 6 blocks. Therefore, you can carry
+                    over what you have learned from block to block to keep improving your
+                    earnings. After 6 blocks, the algorithm will change and you will have 
+                    6 more blocks to learn how to respond with new algorithm. 
+                    """,
+                    """
+                    It is important to try to learn what the algorithm is doing in order to 
+                    earn the biggest bonus.
+                    """,
+                    """
+                    As a tip, the left/right location of the images, on the both the first
+                    and second part of each trial, is **NOT** part of either algorithm. You can 
+                    safely ignore whether the image is on the left or right part of the screen 
+                    throughout the entire experiment.
                     """,
                     """
                     After the experiment, one of the 12 blocks will be selected to count for real
                     and the the points you earned in that block will be added up as a bonus, with each
                     point being worth 50 cents. 
-                    Therefore, make good choices for the potential to earn up to 5 dollars bonus.
+                    Therefore, make good choices for the potential to earn up to 10 dollars bonus.
+                    Remember that responses that are too slow deduct from your point total.
+                    """,
+                    """
                     If you have questions. Please ask the experimenter now.
                     """,
                     """
