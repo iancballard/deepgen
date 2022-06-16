@@ -27,9 +27,8 @@ def pickle_to_df(subs):
                 sub_data['sub'] = p.sub
 
                 sub_data['resp'] = p.choice
-                sub_data['semantic_resp'] = p.semantic_resp
+                sub_data['lr_root'] = p.left_right_root
                 sub_data['choice_rt'] = p.choice_rt
-                sub_data['semantic_rt'] = p.semantic_rt
 
                 #remap choices
                 choice = []
